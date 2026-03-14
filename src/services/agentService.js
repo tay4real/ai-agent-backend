@@ -339,9 +339,7 @@ export const executeFunctionCall = async (functionName, args) => {
       } catch {
         return { error: 'Invalid expression' };
       }
-    case 'get_weather':
-      // Implement weather lookup
-      return { weather: 'Sunny, 72°F' };
+
     default:
       return { error: 'Unknown function' };
   }

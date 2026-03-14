@@ -49,17 +49,6 @@ const availableTools = [
       required: ['expression'],
     },
   },
-  {
-    name: 'get_weather',
-    description: 'Get weather information for a location',
-    parameters: {
-      type: 'object',
-      properties: {
-        location: { type: 'string', description: 'City name or location' },
-      },
-      required: ['location'],
-    },
-  },
 ];
 
 // REST API Routes
