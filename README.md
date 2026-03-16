@@ -1,6 +1,6 @@
 # 🧮 MathTutor AI Agent Backend
 
-[![Live Demo](https://img.shields.io/badge/Live-https://mathtutor-agent-backend-1087118236338.us-central1.run.app-blue?logo=googlecloud)](https://mathtutor-agent-backend-1087118236338.us-central1.run.app/health) [![Docker](https://img.shields.io/badge/Docker-Ready-green?logo=docker)](https://hub.docker.com) [![Node](https://img.shields.io/badge/Node-20-green?logo=node.js)](https://nodejs.org)
+[![Backend Live](https://img.shields.io/badge/Backend-https://mathtutor-agent-backend-1087118236338.us-central1.run.app-blue?logo=googlecloud)](https://mathtutor-agent-backend-1087118236338.us-central1.run.app/health) [![Frontend Live](https://img.shields.io/badge/Frontend-https://ai-agent-frontend-1087118236338.us-central1.run.app-brightgreen)](https://ai-agent-frontend-1087118236338.us-central1.run.app/) [![Docker](https://img.shields.io/badge/Docker-Ready-green?logo=docker)](https://hub.docker.com) [![Node](https://img.shields.io/badge/Node-20-green?logo=node.js)](https://nodejs.org)
 
 ## 🎯 Problem We Solve
 
@@ -13,7 +13,10 @@ Midnight coding frustration: \"Why won't this integral solve?\"
 - Stateful tutoring with 30min memory
 - Tool-powered verification (calculator, search)
 
-**Live right now:** [Health check](https://mathtutor-agent-backend-1087118236338.us-central1.run.app/health) → `{\"status\":\"ok\"}`
+**Live Fullstack:**
+
+- Backend: [Health](https://mathtutor-agent-backend-1087118236338.us-central1.run.app/health) ✓ `{\"status\":\"ok\"}`
+- Frontend: [Demo](https://ai-agent-frontend-1087118236338.us-central1.run.app/) ✓ Connected
 
 ## 🏗️ System Architecture
 
@@ -111,11 +114,12 @@ POST /api/chat: \"solve ∫(x^2+1)dx\"
 
 **Architecture validates:** Full multimodal → tool calling → streaming flow.
 
-## 🌐 Production Live
+## 🌐 Production Live (Fullstack)
 
-**URL:** https://mathtutor-agent-backend-1087118236338.us-central1.run.app  
-**Project:** math-tutor-live (GCP Cloud Run)
-**Scaling:** 1 vCPU/1GiB, auto-scale to 10 instances
+**Backend API:** https://mathtutor-agent-backend-1087118236338.us-central1.run.app  
+**Frontend UI:** https://ai-agent-frontend-1087118236338.us-central1.run.app/  
+**GCP Project:** math-tutor-live (Cloud Run)
+**Scaling:** Backend auto-scales to 10 instances (1 vCPU/1GiB)
 
 ## 🔮 Next: Frontend Integration
 
