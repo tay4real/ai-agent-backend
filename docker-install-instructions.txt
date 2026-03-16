@@ -1,0 +1,1 @@
+Install Docker Desktop for Windows: Download from https://www.docker.com/products/docker-desktop/ ^&^& Run the installer ^&^& Restart computer if prompted. ^&^& After install, open Docker Desktop to start the daemon. ^&^& Verify: docker --version ^

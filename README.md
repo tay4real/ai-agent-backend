@@ -1,130 +1,128 @@
-# 🧮 Math Tutor AI Agent Backend - Gemini-Powered Math Master
+# 🧮 MathTutor AI Agent Backend
 
-## The Story Begins...
+[![Live Demo](https://img.shields.io/badge/Live-https://mathtutor-agent-backend-1087118236338.us-central1.run.app-blue?logo=googlecloud)](https://mathtutor-agent-backend-1087118236338.us-central1.run.app/health) [![Docker](https://img.shields.io/badge/Docker-Ready-green?logo=docker)](https://hub.docker.com) [![Node](https://img.shields.io/badge/Node-20-green?logo=node.js)](https://nodejs.org)
 
-Imagine midnight coding session frustration: \"Why won't this integral solve?\"
+## 🎯 Problem We Solve
 
-Enter **Math Tutor AI** – your tireless, multimodal math genius. Speak equations, snap graphs, chat calculus... it remembers, teaches step-by-step, verifies with tools.
+Midnight coding frustration: \"Why won't this integral solve?\"
 
-No more Stack Overflow rabbit holes. This Node.js backend specializes your AI as the ultimate math coach:
+**MathTutor AI** - multimodal math genius for developers/students:
 
-- Voice a problem → transcribed + solved
-- Photo of handwritten math → LaTeX'd explanation
-- Complex calc → precise evaluation
-- Stateful tutoring sessions
+- Snap handwritten equations → LaTeX solutions
+- Voice calculus problems → step-by-step reasoning
+- Stateful tutoring with 30min memory
+- Tool-powered verification (calculator, search)
 
-Powered by Gemini 2.5 Flash. Production-ready with REST + WebSockets.
+**Live right now:** [Health check](https://mathtutor-agent-backend-1087118236338.us-central1.run.app/health) → `{\"status\":\"ok\"}`
 
-**MathTutor AI stays on-topic – asks \"What's your math challenge?\" for off-topic queries.**
+## 🏗️ System Architecture
 
-## 🚀 Features at a Glance
+![Architecture](./src/architecture/math_tutor_system_architecture.svg)
 
-| Modality               | REST Endpoint           | WebSocket Type | Description                                |
-| ---------------------- | ----------------------- | -------------- | ------------------------------------------ |
-| **Text Chat**          | `POST /api/chat`        | `text`         | Stateful conversations with 30min memory   |
-| **Streaming**          | `POST /api/chat/stream` | `stream`       | Real-time token-by-token responses         |
-| **Audio**              | `POST /api/audio`       | `audio`        | Transcribe → AI process (MP3 base64)       |
-| **Vision/Math Graphs** | `POST /api/image`       | `image`        | Analyze handwritten math, graphs, diagrams |
-| **Tools**              | `POST /api/tools`       | `tools`        | Function calling: math search + calculator |
-| **Sessions**           | `/api/session/*`        | `clear`/`info` | Manage memory per session                  |
+**3-Tier Design:**
+| Tier | Components | Tech |
+|------|------------|------|
+| **Client** | React UI, Multimodal input, WebSocket | [Vite + KaTeX](https://github.com/tay4real/ai-agent-frontend) |
+| **Backend** | Express REST + WebSocket, Session memory, Agent service | Node.js 20 |
+| **AI** | Gemini 2.5 Flash + Tools (calculator/search) | Google AI Studio |
 
-**Math-Focused Tools:**
+## 🚀 Spin-up Instructions (Judges: 2 minutes!)
 
-- `search(query)` - Math concept lookups
-- `calculator(expression)` - Safe math evaluation
-
-## ⚙️ Quickstart (2 minutes)
-
-1. **Clone & Install**
-
-   ```bash
-   git clone <repo> ai-agent-backend
-   cd ai-agent-backend
-   cp .env.example .env
-   # Add your GEMINI_API_KEY from Google AI Studio
-   npm install
-   ```
-
-2. **Run Dev Server**
-
-   ```bash
-   npm run dev  # nodemon src/server.js
-   ```
-
-   Server on `http://localhost:5000`
-
-3. **Test Live Chat (WebSocket)**
-
-   ```bash
-   # Use ws client or your frontend
-   wscat -c ws://localhost:5000
-   # Send: {\"type\":\"text\",\"text\":\"Hello, solve 2+2*3\"}
-   ```
-
-4. **Docker (Production)**
-   ```bash
-   docker build -t ai-agent .
-   docker run -p 5000:5000 -e GEMINI_API_KEY=yourkey ai-agent
-   ```
-
-## 🛠️ API Examples
-
-**Text Chat (cURL):**
+### 1. Local Development (30s)
 
 ```bash
-curl -X POST http://localhost:5000/api/chat \
-  -H \"Content-Type: application/json\" \
-  -d '{\"text\":\"Explain quantum computing simply\",\"sessionId\":\"user1\"}'
+git clone <repo> && cd ai-agent-backend
+cp .env.example .env  # Add GEMINI_API_KEY from ai.google.dev
+npm install
+npm run dev  # http://localhost:5000
 ```
 
-**Streaming:**
+**Test immediately:**
 
 ```bash
-curl -X POST http://localhost:5000/api/chat/stream \
-  -H \"Content-Type: application/json\" \
-  -d '{\"text\":\"Write a haiku about code\"}'
-# Streams SSE events!
+curl -X POST http://localhost:5000/api/chat -H "Content-Type: application/json" -d '{"text":"solve x^2 + 2x + 1 = 0"}'
 ```
 
-**Audio:** Send base64 MP3 + `sessionId`
+### 2. Docker Production (60s)
 
-**Tools:** AI decides when to call functions automatically.
-
-## 🏗️ Architecture
-
-```
-[Frontend] ↔ WebSocket (Live) / REST API
-                ↓
-     Express Server (src/server.js)
-        ↕
-WebSocketServer (liveSocket.js) + Session Memory
-        ↕
-   AgentService (Gemini AI + Tools)
-        ↕
-Google Gemini 2.5 Flash (Multimodal)
+```bash
+docker build -t mathtutor-agent .
+docker run -p 5000:8080 -e GEMINI_API_KEY=your-key mathtutor-agent
 ```
 
-- **Memory:** In-memory sessions (30min TTL, auto-clean)
-- **Scalability:** Stateless design, Redis-ready
-- **Security:** Safe tool eval, API key env-only
+**Port:** `$PORT` or `8080` (Cloud Run compatible)
 
-## 🤝 Connect & Extend
+### 3. GCP Cloud Run (Live Deploy - 3min)
 
-- **Frontend Example:** React/Vue + native WebSocket
-- **Extend Tools:** Add to `availableTools` array
-- **Scale:** Kubernetes + Redis sessions
-- **Vision Pro:** Full Gemini image support ready
+```bash
+# Prerequisites: gcloud CLI, Docker Desktop
+bash deploy.sh
+```
 
-## 📈 Stats
+→ **Live URL printed** (already deployed!)
 
-- **AI Model:** Gemini 2.5 Flash Lite (fast + cheap)
-- **Sessions:** Unlimited (memory-limited)
-- **Rate Limits:** Gemini API defaults
+## 📋 API Reference
 
-Built with ❤️ for AI builders. **Fork, deploy, create!**
+| Endpoint                | Type                 | Example                                          |
+| ----------------------- | -------------------- | ------------------------------------------------ |
+| `POST /api/chat`        | Text chat            | `{\"text\":\"∫x^2dx\", \"sessionId\":\"user1\"}` |
+| `POST /api/chat/stream` | Streaming            | Server-Sent Events                               |
+| `POST /api/audio`       | Voice (base64 MP3)   | Transcribe → AI                                  |
+| `POST /api/image`       | Vision (math photos) | OCR + solve                                      |
+| `wss:// /`              | WebSocket            | Live bidirectional                               |
 
-**Questions?** Open an issue.
+**WebSocket Example:**
+
+```js
+const ws = new WebSocket('ws://localhost:5000');
+ws.send(JSON.stringify({ type: 'text', text: '2+2*3', sessionId: 'user1' }));
+```
+
+## 🛠️ Tech Stack & Decisions
+
+| Component | Choice             | Why                                 |
+| --------- | ------------------ | ----------------------------------- |
+| Framework | Express + ws       | Lightweight, WebSocket native       |
+| AI        | Gemini 2.5 Flash   | Multimodal, cheap ($0.35/1M tokens) |
+| Memory    | In-memory TTL      | Simple, scales with Redis           |
+| Deploy    | Docker → Cloud Run | Zero-config scaling                 |
+| Health    | `nc` script        | Cloud Run compatible                |
+
+**Production Dockerfile:**
+
+```dockerfile
+FROM node:20-alpine
+RUN npm ci --only=production
+HEALTHCHECK CMD nc localhost $PORT
+USER node
+CMD [\"npm\", \"start\"]
+```
+
+## 🎪 Live Demo Results
+
+**Health:** ✅ `{\"status\":\"ok\"}`
+
+**Math Test:**
+
+```
+POST /api/chat: \"solve ∫(x^2+1)dx\"
+→ \"The antiderivative is (1/3)x³ + x + C\"
+```
+
+**Architecture validates:** Full multimodal → tool calling → streaming flow.
+
+## 🌐 Production Live
+
+**URL:** https://mathtutor-agent-backend-1087118236338.us-central1.run.app  
+**Project:** math-tutor-live (GCP Cloud Run)
+**Scaling:** 1 vCPU/1GiB, auto-scale to 10 instances
+
+## 🔮 Next: Frontend Integration
+
+Connect this backend to React client for fullstack math tutoring app!
 
 ---
 
-_Powered by [Google Gemini](https://ai.google.dev) | Node.js | WebSockets_
+**Built for hackathons** - clone → npm dev → working in 60s. Questions? Open issue.
+
+![Hackathon Ready](https://img.shields.io/badge/Hackathon-Ready-brightgreen)
